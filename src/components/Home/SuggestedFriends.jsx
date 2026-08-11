@@ -84,7 +84,7 @@ export default function SuggestedFriends() {
             <span className="bg-[#171B21] p-2 border border-[#262626] text-white text-xs font-semibold w-5 h-5 flex items-center justify-center rounded-full">
               {suggestedFriendes?.length}
             </span>
-            <span className="text-blue-500 text-sm font-semibold">
+            <span className="text-blue-500 text-sm font-semibold cursor-pointer">
               {showMobileList ? "Hide" : "Show"}
             </span>
           </div>
@@ -153,7 +153,7 @@ export default function SuggestedFriends() {
 
             <Link
               to="/suggestion"
-              className="mt-1 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-3 text-sm font-bold text-[#171B21] hover:bg-gray-50 transition-colors"
+              className="mt-1 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-[#262626] bg-[#171B21] px-3 py-3 text-sm font-bold text-white transition-colors"
             >
               View More
             </Link>
