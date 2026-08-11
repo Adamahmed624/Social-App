@@ -484,7 +484,7 @@ function RepliesSection({ postId, comment, currentUserId, authHeaders, profile }
                         </div>
                         <button
                             disabled={sending}
-                            className="w-7 h-7 rounded-full bg-blue-500 disabled:bg-blue-500/30 flex items-center justify-center text-white transition-colors hover:bg-blue-600 disabled:hover:bg-blue-500/30"
+                            className="cursor-pointer w-7 h-7 rounded-full bg-blue-500 disabled:bg-blue-500/30 flex items-center justify-center text-white transition-colors hover:bg-blue-600 disabled:hover:bg-blue-500/30"
                         >
                             <i className="fa-solid fa-paper-plane text-[10px]"></i>
                         </button>
@@ -890,7 +890,7 @@ export default function CommentsSection({ postId }) {
                         </div>
                         <button
                             disabled={sending}
-                            className="w-7 h-7 rounded-full bg-blue-500 disabled:bg-blue-500/30 flex items-center justify-center text-white transition-colors hover:bg-blue-600 disabled:hover:bg-blue-500/30"
+                            className="cursor-pointer w-7 h-7 rounded-full bg-blue-500 disabled:bg-blue-500/30 flex items-center justify-center text-white transition-colors hover:bg-blue-600 disabled:hover:bg-blue-500/30"
                         >
                             <i className="fa-solid fa-paper-plane text-[10px]"></i>
                         </button>

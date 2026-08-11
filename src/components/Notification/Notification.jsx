@@ -29,12 +29,15 @@ export default function NotificationsPanel() {
 
   const markAsRead = useMutation({
     mutationFn: (id) => API.patch(`/notifications/${id}/read`),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["notifications"] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["getNotificationCount"] }),
   });
 
   const markAllAsRead = useMutation({
     mutationFn: () => API.patch("/notifications/read-all"),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["notifications"] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["getNotificationCount"] })
+      queryClient.invalidateQueries({ queryKey: ["notifications"] })
+    },
   });
 
   const notifications = data || [];
@@ -59,7 +62,7 @@ export default function NotificationsPanel() {
           <button
             onClick={() => markAllAsRead.mutate()}
             disabled={notifications.every((n) => n.isRead)}
-            className="text-[13px] font-medium px-3.5 py-2 rounded-lg text-[#d4d4d8] border border-[#262626] disabled:opacity-40 disabled:cursor-not-allowed"
+            className="cursor-pointer text-[13px] font-medium px-3.5 py-2 rounded-lg text-[#d4d4d8] border border-[#262626] disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <i className="fa-solid fa-check-double" /> Mark all as read
           </button>
@@ -100,7 +103,7 @@ export default function NotificationsPanel() {
               <Link
                 to={`/postDetails/${n.entityId}`}
                 key={n._id}
-                className={`cursor-default w-9/10 mx-auto rounded-xl hover:bg-[#2b303d] flex items-start gap-3 px-5 py-4 ${!n.isRead ? "bg-[#242B3B]" : "transparent"} border-b border-[#262626]`}
+                className={`mb-3 cursor-default w-9/10 mx-auto rounded-xl hover:bg-[#2b303d] flex items-start gap-3 px-5 py-4 ${!n.isRead ? "bg-[#242B3B]" : "transparent"} border-b border-[#262626]`}
               >
                 <Link to={`/profile/${n.actor._id}`} className="cursor-pointer">
                   <img src={n.actor.photo} alt={n.actor.name} className="w-11 h-11 rounded-full object-cover" />
@@ -123,7 +126,7 @@ export default function NotificationsPanel() {
                   {!n.isRead ? (
                     <button
                       onClick={() => markAsRead.mutate(n._id)}
-                      className="text-[12.5px] font-medium mt-2 text-[#5b8def]"
+                      className="cursor-pointer text-[12.5px] font-medium mt-2 text-[#5b8def]"
                     >
                       <i className="fa-solid fa-check" /> Mark as read
                     </button>
