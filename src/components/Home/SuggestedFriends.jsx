@@ -7,6 +7,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 export default function SuggestedFriends() {
   const { userToken } = useContext(authContext);
   const [searchTerm, setSearchTerm] = useState("");
+  const [showMobileList, setShowMobileList] = useState(false);
   const queryClient = useQueryClient();
 
   async function getSuggestedFriends() {
@@ -44,10 +45,10 @@ export default function SuggestedFriends() {
         old?.map((user) =>
           user._id === id
             ? {
-                ...user,
-                isFollowing: data.data.following,
-                followersCount: data.data.followersCount,
-              }
+              ...user,
+              isFollowing: data.data.following,
+              followersCount: data.data.followersCount,
+            }
             : user
         )
       );
@@ -60,14 +61,107 @@ export default function SuggestedFriends() {
 
   const displayedFriends = searchTerm
     ? suggestedFriendes?.filter(
-        (user) =>
-          user.name.toLowerCase().includes(searchTerm) ||
-          user.username.toLowerCase().includes(searchTerm)
-      )
+      (user) =>
+        user.name.toLowerCase().includes(searchTerm) ||
+        user.username.toLowerCase().includes(searchTerm)
+    )
     : suggestedFriendes;
 
   return (
     <>
+      <div className="lg:hidden">
+        <button
+          onClick={() => setShowMobileList((prev) => !prev)}
+          className="w-full flex items-center justify-between bg-[#171B21] border border-[#262626] rounded-full px-4 py-3 shadow-sm"
+        >
+          <div className="flex items-center gap-2">
+            <i className="fa-solid fa-user-group text-blue-500 text-sm"></i>
+            <span className="text-white font-bold text-sm">
+              Suggested Friends
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="bg-[#171B21] p-2 border border-[#262626] text-white text-xs font-semibold w-5 h-5 flex items-center justify-center rounded-full">
+              {suggestedFriendes?.length}
+            </span>
+            <span className="text-blue-500 text-sm font-semibold">
+              {showMobileList ? "Hide" : "Show"}
+            </span>
+          </div>
+        </button>
+
+        {showMobileList && (
+          <div className="bg-[#171B21] rounded-2xl p-4 mt-2 shadow-sm space-y-3">
+            {isLoading && (
+              <p className="text-center text-gray-500 text-sm">Loading</p>
+            )}
+            {isError && (
+              <p className="text-center text-gray-500 text-sm">
+                Failed to get suggested friends try again later.
+              </p>
+            )}
+            {displayedFriends?.length > 0 &&
+              displayedFriends.map((user) => (
+                <div
+                  key={user._id}
+                  className="p-3 rounded-xl border border-[#262626] last:border-0"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="w-10 h-10 rounded-full bg-[#1F232B] flex items-center justify-center shrink-0">
+                        <img
+                          src={user.photo}
+                          alt={user.name}
+                          className="h-10 w-10 rounded-full object-cover"
+                        />
+                      </div>
+                      <Link to={`/profile/${user._id}`} className="min-w-0">
+                        <p className="text-white text-sm font-semibold truncate hover:underline">
+                          {user.name}
+                        </p>
+                        <p className="text-gray-400 text-xs truncate">
+                          @{user.username}
+                        </p>
+                      </Link>
+                    </div>
+                    <button
+                      onClick={() => handleFollow(user._id)}
+                      disabled={followLoading && followingId === user._id}
+                      className={`cursor-pointer flex items-center gap-1 shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full transition-colors ${user.isFollowing
+                        ? "bg-green-500/15 hover:bg-green-500/25 text-green-500"
+                        : "bg-blue-500/15 hover:bg-blue-500/25 text-blue-500"
+                        } disabled:opacity-50`}
+                    >
+                      <i
+                        className={`fa-solid text-[10px] ${user.isFollowing ? "fa-user-check" : "fa-user-plus"
+                          }`}
+                      ></i>
+                      {followLoading && followingId === user._id
+                        ? "..."
+                        : user.isFollowing
+                          ? "Following"
+                          : "Follow"}
+                    </button>
+                  </div>
+                  <div className="mt-2 flex items-center gap-2 text-[11px] font-semibold text-gray-400">
+                    <p className="rounded-full bg-[#1F232B] px-2 py-0.5">
+                      {user.followersCount} followers
+                    </p>
+                  </div>
+                </div>
+              ))}
+
+            <Link
+              to="/suggestion"
+              className="mt-1 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-3 text-sm font-bold text-[#171B21] hover:bg-gray-50 transition-colors"
+            >
+              View More
+            </Link>
+          </div>
+        )}
+      </div>
+
+
       <aside className="hidden lg:block">
         <div className="bg-[#171B21] border border-[#262626] rounded-2xl p-5 sticky top-24">
           <div className="flex items-center justify-between mb-4">
@@ -130,8 +224,8 @@ export default function SuggestedFriends() {
                       {followLoading && followingId === user._id
                         ? "..."
                         : user.isFollowing
-                        ? "Following"
-                        : "Follow"}
+                          ? "Following"
+                          : "Follow"}
                     </button>
                   </div>
                   <div className="mt-2 flex items-center gap-2 text-[11px] font-semibold text-[#6b7280]">

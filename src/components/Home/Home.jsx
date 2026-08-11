@@ -27,7 +27,7 @@ export default function Home() {
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[220px_1fr_320px] gap-6">
         <Sidebar sidebarLinks={sidebarLinks} />
 
-        <main className="space-y-6">
+        <main className="space-y-6 order-3 lg:order-0">
           <div className="bg-[#171B21] border border-[#262626] rounded-2xl p-5">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-11 h-11 rounded-full bg-[#1F232B] flex items-center justify-center overflow-hidden border border-[#262626]">
@@ -46,7 +46,7 @@ export default function Home() {
               </div>
             </div>
 
-            <CreatPost/>
+            <CreatPost />
           </div>
 
 
@@ -54,7 +54,9 @@ export default function Home() {
 
         </main>
 
-        <SuggestedFriends />
+        <div className="order-2 lg:order-0">
+          <SuggestedFriends />
+        </div>
 
       </div>
     </div>
