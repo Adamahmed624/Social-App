@@ -297,7 +297,7 @@ export default function ProfileHeader() {
                                 <input id="coverInput" type="file" accept="image/*" hidden />
                             </label>
                             <button className="cursor-pointer  inline-flex items-center gap-1 rounded-lg bg-black/45 px-2 py-1 text-[11px] font-bold text-white backdrop-blur transition hover:bg-black/60 disabled:cursor-not-allowed disabled:opacity-60 sm:gap-1.5 sm:px-3 sm:py-1.5 sm:text-xs">
-                                <i className="fas fa-trash text-[13px]"></i>
+                                <i className="fa-regular fa-trash-can text-[13px]"></i>
                                 Remove
                             </button>
                         </div>

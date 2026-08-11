@@ -94,7 +94,7 @@ export default function SuggestedFriends() {
             {isLoading && <p className="text-center text-[#C2C6D6]">Loading</p>}
             {isError && (
               <p className="text-center text-[#C2C6D6]">
-                Faild to get suggested friends try again later.
+                Failed to get suggested friends try again later.
               </p>
             )}
             {displayedFriends?.length > 0 &&
@@ -124,7 +124,7 @@ export default function SuggestedFriends() {
                     <button
                       onClick={() => handleFollow(user._id)}
                       disabled={followLoading && followingId === user._id}
-                      className={`flex items-center gap-1 shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full transition-colors ${user.isFollowing ? 'bg-green-500/15 hover:bg-green-500/25 text-green-400' : 'bg-blue-500/15 hover:bg-blue-500/25 text-blue-400'} disabled:opacity-50`}
+                      className={`cursor-pointer flex items-center gap-1 shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full transition-colors ${user.isFollowing ? 'bg-green-500/15 hover:bg-green-500/25 text-green-400' : 'bg-blue-500/15 hover:bg-blue-500/25 text-blue-400'} disabled:opacity-50`}
                     >
                       <i className={`fa-solid text-[10px] ${user.isFollowing ? 'fa-user-check' : 'fa-user-plus'}`}></i>
                       {followLoading && followingId === user._id
