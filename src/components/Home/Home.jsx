@@ -23,7 +23,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0D0F13] pt-20 pb-10">
+    <div className="min-h-screen bg-[#0D0F13] pt-10 pb-10">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[220px_1fr_320px] gap-6">
         <Sidebar sidebarLinks={sidebarLinks} />
 
