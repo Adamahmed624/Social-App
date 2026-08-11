@@ -4,6 +4,7 @@ import axios from "axios";
 import { authContext } from "../../Context/AuthContext";
 import { profileContext } from "../../Context/ProfileContext";
 import { useQuery } from "@tanstack/react-query";
+import hero from "../../assets/hero.png";
 
 export default function Navbar() {
   const { setuserToken, userToken } = useContext(authContext);
@@ -59,18 +60,7 @@ export default function Navbar() {
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-3 sm:px-6 py-3 gap-2">
         <div className="flex items-center shrink-0">
           <div className="w-11 h-11 rounded-xl bg-[#12132a] border border-[#2a2c4a] flex flex-col items-center justify-center shrink-0">
-            <div className="flex gap-0.75">
-              {[6, 10, 8, 12, 6].map((h, i) => (
-                <span
-                  key={i}
-                  className="w-0.5 bg-blue-400 rounded-full"
-                  style={{ height: `${h}px` }}
-                />
-              ))}
-            </div>
-            <span className="text-[7px] tracking-widest text-slate-400 mt-0.5">
-              NEXUS
-            </span>
+            <img src={hero} alt="Nexus Logo" className="w-full h-full rounded-xl object-contain" />
           </div>
           <span className="hidden sm:inline text-xl tracking-widest text-white font-bold ml-4">
             NEXUS
