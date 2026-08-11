@@ -4,6 +4,7 @@ import { authContext } from "../../Context/AuthContext";
 import { profileContext } from "../../Context/ProfileContext";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 const BASE_URL = "https://route-posts.routemisr.com";
 
@@ -731,6 +732,10 @@ export default function CommentsSection({ postId }) {
             console.log(error);
         },
         onSuccess: (response) => {
+            toast.success("Comment created successfully!", {
+                position: "top-right",
+                autoClose: 3000,
+            })
             setItems((prev) => [response.data.comment, ...prev]);
             reset();
             setImagePreview(null);
@@ -772,6 +777,10 @@ export default function CommentsSection({ postId }) {
         setItems((prev) => prev.filter((c) => c._id !== id));
         if (openRepliesFor === id) setOpenRepliesFor(null);
         try {
+            toast.success("Comment deleted successfully!", {
+                position: "top-right",
+                autoClose: 3000,
+            })
             await axios.delete(
                 `${BASE_URL}/posts/${postId}/comments/${id}`,
                 authHeaders

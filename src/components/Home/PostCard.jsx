@@ -6,6 +6,7 @@ import CommentsSection from "../CommentsSection/CommentsSection";
 import { Link } from "react-router-dom";
 import { profileContext } from "../../Context/ProfileContext";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 export default function PostCard({ post }) {
     const [showModal, setShowModal] = useState(false);
@@ -57,6 +58,10 @@ export default function PostCard({ post }) {
             return data.data.post;
         },
         onSuccess: () => {
+            toast.success("Post created successfully!", {
+                position: "top-right",
+                autoClose: 3000,
+            })
             setShareModal(false)
             queryClient.invalidateQueries({ queryKey: ["getAllPosts"] });
             queryClient.invalidateQueries({ queryKey: ["getAllFeedPosts"] });
@@ -166,6 +171,10 @@ export default function PostCard({ post }) {
             return data;
         },
         onSuccess: () => {
+            toast.success("Post edited successfully!", {
+                position: "top-right",
+                autoClose: 3000,
+            })
             setIsEditing(false);
             queryClient.invalidateQueries({ queryKey: ["getAllPosts"] });
             queryClient.invalidateQueries({ queryKey: ["getAllFeedPosts"] });
@@ -173,6 +182,10 @@ export default function PostCard({ post }) {
             queryClient.invalidateQueries({ queryKey: ["getAllSavedPosts"] });
         },
         onError: (err) => {
+            toast.error("Failed to edit post!", {
+                position: "top-right",
+                autoClose: 3000,
+            });
             console.log(err);
         },
     });
@@ -191,6 +204,10 @@ export default function PostCard({ post }) {
             })
         },
         onSuccess: () => {
+            toast.success("Post Saved successfully!", {
+                position: "top-right",
+                autoClose: 3000,
+            })
             setShowMenu(false)
             setBookmarked((prev) => !prev);
 
@@ -214,6 +231,11 @@ export default function PostCard({ post }) {
             })
         },
         onSuccess: () => {
+
+            toast.success("Post deleted successfully!", {
+                position: "top-right",
+                autoClose: 3000,
+            })
             setShowDeleteConfirm(false);
             setShowMenu(false)
 

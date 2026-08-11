@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form"
 import { authContext } from "../../Context/AuthContext"
 import { profileContext } from "../../Context/ProfileContext"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { toast } from "react-toastify"
 
 export default function CreatPost() {
     const { userToken } = useContext(authContext)
@@ -60,6 +61,10 @@ export default function CreatPost() {
             return data;
         },
         onSuccess: () => {
+            toast.success("Post created successfully!", {
+                position: "top-right",
+                autoClose: 3000,
+            })
             reset();
             setImagePreview(null);
 

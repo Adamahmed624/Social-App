@@ -18,6 +18,7 @@ import MyPosts from "./components/MyPosts/MyPosts"
 import SavedPosts from "./components/BookmarkedPost/BookmarkedPost"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import PostDetails from "./components/PostDetails/PostDetails"
+import { ToastContainer } from "react-toastify"
 
 
 const queryClient = new QueryClient
@@ -49,6 +50,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <AuthContextProvider>
           <ProfileContextProvider>
+            <ToastContainer theme="dark"/>
             <RouterProvider router={router} />
           </ProfileContextProvider>
         </AuthContextProvider>
