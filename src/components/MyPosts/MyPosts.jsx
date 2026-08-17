@@ -1,21 +1,17 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { authContext } from "../../Context/AuthContext";
 import PostCard from "../Home/PostCard";
 import { profileContext } from "../../Context/ProfileContext";
 import PostSkeleton from "../Home/PostSkelaton";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 export default function MyPosts() {
     const { userToken } = useContext(authContext);
     const { profile } = useContext(profileContext);
 
-    const [page, setPage] = useState(1)
-    const [allMyPosts, setAllMyPosts] = useState([])
-    const [totalPages, setTotalPages] = useState(1)
-
-    async function getAllMyPosts(page = 1) {
-        const { data } = await axios.get(`https://route-posts.routemisr.com/users/${profile._id}/posts?page=${page}`, {
+    async function getAllMyPosts({ pageParam = 1 }) {
+        const { data } = await axios.get(`https://route-posts.routemisr.com/users/${profile._id}/posts?page=${pageParam}`, {
             headers: {
                 token: userToken
             }
@@ -24,29 +20,27 @@ export default function MyPosts() {
         return {
             posts: data.data.posts,
             numberOfPages: data.meta.pagination.numberOfPages,
+            page: pageParam
         };
     }
 
-
-
-    const { data, isLoading, isFetching, isError, error } = useQuery({
-        queryKey: ["getAllMyPosts", page],
-        queryFn: () => getAllMyPosts(page),
+    const {
+        data,
+        isLoading,
+        isFetching,
+        isFetchingNextPage,
+        hasNextPage,
+        fetchNextPage,
+        isError,
+        error
+    } = useInfiniteQuery({
+        queryKey: ["getAllMyPosts", profile?._id],
+        queryFn: getAllMyPosts,
+        initialPageParam: 1,
+        getNextPageParam: (lastPage) =>
+            lastPage.page < lastPage.numberOfPages ? lastPage.page + 1 : undefined,
+        enabled: !!profile?._id,
     });
-
-    useEffect(() => {
-    if (data) {
-        setAllMyPosts((prev) => [...prev, ...data.posts]);
-        setTotalPages(data.numberOfPages);
-    }
-
-    }, [data])
-
-    function loadMore() {
-        if (page < totalPages) {
-            setPage((prev) => prev + 1)
-        }
-    }
 
     if (isLoading) return <PostSkeleton />;
 
@@ -58,20 +52,22 @@ export default function MyPosts() {
         );
     }
 
+    const allMyPosts = data?.pages.flatMap((p) => p.posts) ?? [];
+
     return (
         <div className="flex flex-col items-center gap-4">
-            {allMyPosts?.length > 0 ? (
+            {allMyPosts.length > 0 ? (
                 <>
                     {allMyPosts.map((post) => (
                         <PostCard post={post} key={post._id} />
                     ))}
-                    {page < totalPages && (
+                    {hasNextPage && (
                         <button
-                            onClick={loadMore}
-                            disabled={isFetching}
+                            onClick={() => fetchNextPage()}
+                            disabled={isFetchingNextPage || isFetching}
                             className="cursor-pointer mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-[#262626] bg-[#171B21]  px-3 py-3 text-sm font-bold text-white hover:bg-[#1F2430] hover:border-[#333333] transition-colors"
                         >
-                            {isFetching ? "Loading..." : "Load more"}
+                            {isFetchingNextPage ? "Loading..." : "Load more"}
                         </button>
                     )}
                 </>
