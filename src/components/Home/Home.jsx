@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { profileContext } from "../../Context/ProfileContext";
 import HomeSkeleton from "./HomeSkelaton";
 import Sidebar from "./Sidebar";
@@ -17,6 +17,10 @@ export default function Home() {
     { icon: "fa-solid fa-globe", label: "Community", path: 'community' },
     { icon: "fa-regular fa-bookmark", label: "Saved", path: 'saved' },
   ];
+
+  useEffect(() => {
+    document.title = "Home | Nexus — Where Connections Meet | AdamDev";
+  }, []);
 
   if (profileLoading) {
     return <HomeSkeleton />;

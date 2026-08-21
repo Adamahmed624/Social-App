@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { authContext } from "../../Context/AuthContext";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 
@@ -20,6 +20,11 @@ export default function NotificationsPanel() {
     like_post: "liked your post",
     share_post: "shared your post",
   };
+
+  useEffect(() => {
+    document.title = "Notifications | Nexus — Where Connections Meet | AdamDev";
+  }, []);
+
   const queryClient = useQueryClient();
 
   const { data, isLoading } = useQuery({
