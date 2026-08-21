@@ -37,9 +37,9 @@ export default function ProfileHeader() {
         }
     }, [photoValue]);
 
-    useEffect(()=>{
-        document.title = `${profile?.name || 'Profile'} | Nexus — Where Connections Meet | AdamDev`;
-    })
+    useEffect(() => {
+        document.title = `${profile?.name ? `${profile.name} Profile` : 'Profile'} | Nexus — Where Connections Meet | AdamDev`;
+    }, [profile?.name]);
 
     const isOwnProfile = !paramId || paramId === profile?._id;
     const id = paramId || profile?._id;
