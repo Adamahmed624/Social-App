@@ -1,16 +1,61 @@
-# React + Vite
+# Social App — Responsive Social Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A social media web app with authentication, a live feed, post creation, comments, and user profiles — built with React and a real backend integration via Axios.
 
-Currently, two official plugins are available:
+🔗 **Live demo:** [social-app-eight-iota.vercel.app](https://social-app-eight-iota.vercel.app)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- **Authentication** — Login and Register flows with schema-based validation (Zod + React Hook Form)
+- **Protected & Guest Routes** — route guarding so authenticated-only pages (feed, profile, settings) and guest-only pages (login/register) are properly separated
+- **Feed** — post cards with loading skeleton states for a smoother UX
+- **Post creation & comments** — create posts and view/add comments on a dedicated post details page
+- **User profiles** — view and edit profile, with a loading skeleton state
+- **Bookmarks** — save posts for later
+- **Notifications**
+- **Suggested friends / community sidebar**
+- **Toast notifications** for user feedback (via React Toastify)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **React 19** — component architecture, Context API for auth & profile state
+- **React Router 7** — routing, including protected/guest route guards
+- **TanStack React Query** — server-state management and data fetching
+- **Axios** — REST API integration with the backend
+- **React Hook Form + Zod** — form handling and schema validation
+- **React Toastify** — user notifications
+- **Tailwind CSS 4** — styling
+- **Vite** — build tool and dev server
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Project Structure
+
+```
+src/
+├── auth/
+│   ├── login/ register/     # Auth forms
+│   └── schema/               # Zod validation schemas
+├── Context/                # AuthContext & ProfileContext (global state)
+├── components/
+│   ├── Home/                 # Feed, post cards, sidebar, skeletons
+│   ├── PostDetails/            # Single post + comments
+│   ├── CommentsSection/
+│   ├── CreatPost/
+│   ├── Profile/               # Profile view + skeleton
+│   ├── BookmarkedPost/
+│   ├── Notification/
+│   ├── ProtectedRoute/ GuestRoute/  # Route guards
+│   └── Navbar/ Layout/
+```
+
+## Getting Started
+
+```bash
+git clone https://github.com/Adamahmed624/Social-App.git
+cd Social-App
+npm install
+npm run dev
+```
+
+## Author
+
+**Adam Ahmed** — [GitHub](https://github.com/Adamahmed624)
